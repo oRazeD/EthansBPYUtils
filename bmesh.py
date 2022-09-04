@@ -1,7 +1,7 @@
 import bpy, bmesh
 
 class BMeshFromEditMode():
-    '''Generate a temporary BMesh. Accepts Objects or Meshes as inputs'''
+    '''Generate a temporary BMesh. Accepts Objects or Meshes as inputs temp change'''
     def __init__(self, bm_data: bpy.types.Object | bpy.types.Mesh):
         if bpy.context.mode != 'EDIT_MESH':
             raise ValueError("Object not in Edit Mode")
