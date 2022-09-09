@@ -16,7 +16,7 @@ def exit_local_view() -> bool:
     return local_view_exited, report_string
 
 
-def get_opengl_render_sync(context, set_render_vis: bool=False) -> dict:
+def get_opengl_render_sync(context, set_render_vis: bool=False) -> dict[bpy.types.Collection: [str, str, str]]:
     '''Generate a dictionary of viewlayer render visibility for use in OpenGL viewport renders'''
     vlayer = context.view_layer
     
@@ -43,22 +43,22 @@ def get_opengl_render_sync(context, set_render_vis: bool=False) -> dict:
         for coll in bpy.data.collections
     }
 
-    if set_render_vis:
-        local_view, report_string = exit_local_view()
-
-        for ob, vis in ob_hide_states.items():
-            if vis['render_vis']:
-                ob.hide_viewport = True
-            else:
-                ob.hide_viewport = False
-                ob.hide_set(False)
-
-        for coll, vis in coll_hide_states.items():
-            if vis['render_vis']:
-                coll.hide_viewport = True
-            else:
-                coll.hide_viewport = False
-                vis['layer']['layer_ob'].hide_viewport = False
+    #if set_render_vis:
+    #    local_view, report_string = exit_local_view()
+#
+    #    for ob, vis in ob_hide_states.items():
+    #        if vis['render_vis']:
+    #            ob.hide_viewport = True
+    #        else:
+    #            ob.hide_viewport = False
+    #            ob.hide_set(False)
+#
+    #    for coll, vis in coll_hide_states.items():
+    #        if vis['render_vis']:
+    #            coll.hide_viewport = True
+    #        else:
+    #            coll.hide_viewport = False
+    #            vis['layer']['layer_ob'].hide_viewport = False
 
     return ob_hide_states, coll_hide_states
 

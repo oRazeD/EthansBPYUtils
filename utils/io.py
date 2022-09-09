@@ -1,5 +1,6 @@
 import bpy, os
 
+
 def blender_path_exists(filepath: str) -> bool:
     '''Check if blender specific filepath exists'''
     if not os.path.exists(bpy.path.abspath(filepath)):
