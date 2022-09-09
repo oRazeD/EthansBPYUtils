@@ -1,5 +1,8 @@
+from typing import Any
 import bpy
 from collections.abc import Iterable
+import logging
+log = logging.getLogger(__name__)
 
 
 def display_error_message(message='', title='Screenshot Saver Warning', icon='ERROR') -> None:
@@ -53,32 +56,34 @@ class InContextMode():
         bpy.ops.object.mode_set(mode=self.saved_context_mode)
 
 
-def save_attributes(attributes_to_save: Iterable[bpy.types.AttributeGroup]) -> dict:
-    """Save all attributes of any given attribute
+def save_attributes_to_dict(attributes_to_save: Any | Iterable[Any]) -> dict:
+    """Save all attributes of any given bpy.types
 
     Parameters
     ----------
-    attributes_to_save : Iterable[bpy.types.Object]
+    attributes_to_save : Any | Iterable[Any]
         The attributes you want to look through and save
-
-    Returns
-    -------
-    dict
-        _description_
     """
-    '''Recursive method of saving all attributes'''
-    # This method saves a lot of unnecessary data, but is very
-    # modular compared to saving every attribute individually
+    if not isinstance(attributes_to_save, Iterable):
+        attributes_to_save = [attributes_to_save]
+
     saved_attributes = {}
-
     for data in attributes_to_save:
-        for attr in dir(data):
-            if data not in saved_attributes:
-                saved_attributes[data] = {}
-
-            saved_attributes[data][attr] = getattr(data, attr)
+        saved_attributes[data] = {attr: getattr(data, attr) for attr in dir(data)}
 
     return saved_attributes
+
+
+def load_attributes_from_dict(attributes_to_load: dict) -> None:
+    """Load all attributes from a dict"""
+    for key, values in attributes_to_load.items():
+        for name, value in values.items():
+            try:
+                setattr(key, name, value)
+            except AttributeError: # read_only attr
+                pass
+            except TypeError: # This seems to only happen with specific bad contexts such as "dynamic" props
+                log.debug(f'{name}: {value} had a TypeError.')
 
 
 # ##### BEGIN GPL LICENSE BLOCK #####
