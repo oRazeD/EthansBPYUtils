@@ -3,7 +3,6 @@ from timeit import default_timer
 
 class CodeTimer(object):
     '''A basic context manager for timing code blocks'''
-
     def __init__(self, timing:str=1000): # 1000 = milliseconds
         self.timing = timing
         self.timer = default_timer

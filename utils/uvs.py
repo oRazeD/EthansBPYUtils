@@ -1,13 +1,11 @@
 import bpy
-from bmesh import BMeshFromEditMode
+from .bmesh import BMeshFromEditMode
 from collections.abc import Iterable
 
 
 def has_uv_data(ob: bpy.types.Object) -> bool:
     """Verify the given object has uv data"""
-    if hasattr(ob.data, 'uv_layers'):
-        return True
-    return False
+    return True if hasattr(ob.data, 'uv_layers') else False
 
 
 def copy_uv_layers(ob:bpy.types.Object, copy_from_idx:int, copy_to_idx:int) -> None:

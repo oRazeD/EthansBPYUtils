@@ -1,7 +1,7 @@
 import bpy
 
 
-def exit_local_view() -> bool:
+def exit_local_view() -> bool | str:
     local_view_exited = False
     for area in bpy.context.screen.areas:
         if area.type == 'VIEW_3D' and area.spaces[0].local_view:
@@ -16,34 +16,43 @@ def exit_local_view() -> bool:
     return local_view_exited, report_string
 
 
-def get_opengl_render_sync(context, set_render_vis: bool=False) -> dict[bpy.types.Collection: [str, str, str]]:
-    '''Generate a dictionary of viewlayer render visibility for use in OpenGL viewport renders'''
-    vlayer = context.view_layer
-    
-    def layer_traverse(coll, layer=vlayer.layer_collection) -> bpy.types.LayerCollection:
+def get_render_sync(set_render_vis: bool=False) -> dict[bpy.types.Object: dict[bool, bool, bool]]:
+    """Generate a dictionary of object & collection viewlayer visibility generally for use in OpenGL viewport renders
+
+    Parameters
+    ----------
+    set_render_vis : bool
+        by default False
+    """
+    def layer_traverse(coll: bpy.types.Collection, layer: bpy.types.LayerCollection) -> bpy.types.LayerCollection:
         '''Traverse all layer collections to find the matching one'''
         if layer.collection == coll:
-            yield {'layer_ob': layer, 'layer_vis': layer.hide_viewport}
+            yield {'layer_ob': layer, 'layer_hidden': layer.hide_viewport}
 
         for child in layer.children:
             yield from layer_traverse(coll, child)
 
+    vlayer = bpy.context.view_layer
+
     ob_hide_states = {ob:{
-                'render_vis': ob.hide_render,
-                'viewport_vis': ob.hide_viewport,
-                'layer_vis': ob.hide_get()
+                'render_hidden': ob.hide_render,
+                'viewport_hidden': ob.hide_viewport,
+                'layer_hidden': ob.hide_get()
             }
         for ob in vlayer.objects
     }
     coll_hide_states = {coll:{
-                'render_vis': coll.hide_render,
-                'viewport_vis': coll.hide_viewport,
-                'layer': next(layer_traverse(coll))
+                'render_hidden': coll.hide_render,
+                'viewport_hidden': coll.hide_viewport,
+                'layer_ob': next(layer_traverse(coll, vlayer.layer_collection))
             }
         for coll in bpy.data.collections
     }
 
-    #if set_render_vis:
+    return ob_hide_states, coll_hide_states
+
+    # TODO
+    #if set_render_vis: 
     #    local_view, report_string = exit_local_view()
 #
     #    for ob, vis in ob_hide_states.items():
@@ -59,8 +68,6 @@ def get_opengl_render_sync(context, set_render_vis: bool=False) -> dict[bpy.type
     #        else:
     #            coll.hide_viewport = False
     #            vis['layer']['layer_ob'].hide_viewport = False
-
-    return ob_hide_states, coll_hide_states
 
 
 class TempAreaType():
