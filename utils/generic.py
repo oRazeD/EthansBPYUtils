@@ -5,14 +5,6 @@ import logging
 log = logging.getLogger(__name__)
 
 
-def display_error_message(message='', title='Screenshot Saver Warning', icon='ERROR') -> None:
-    '''Display a custom error message in situations where a regular error message cannot be sent'''
-    def draw(self, context):
-        self.layout.label(text=message)
-
-    bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
-
-
 class OpInfo: # Mix-in class
     bl_options = {'REGISTER', 'UNDO'}
     bl_label = ""
@@ -54,6 +46,14 @@ class InContextMode():
      
     def __exit__(self, _exc_type, _exc_value, _exc_traceback):
         bpy.ops.object.mode_set(mode=self.saved_context_mode)
+
+
+def display_error_message(message='', title='Warning', icon='ERROR') -> None:
+    '''Display a custom error message in situations where a regular error message cannot be sent'''
+    def draw(self, context):
+        self.layout.label(text=message)
+
+    bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
 
 
 def save_attributes_to_dict(attributes_to_save: Any | Iterable[Any]) -> dict:

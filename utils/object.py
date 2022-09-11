@@ -1,5 +1,6 @@
 import bpy
 from collections.abc import Iterable, Iterator
+from mathutils import Vector
 
 
 def filter_objects(obs: Iterable[bpy.types.Object], filter_instanced: bool=True, filter_linked: bool=True) -> set[bpy.types.Object]:
@@ -55,6 +56,91 @@ def get_hierarchy(obs_input: Iterable[bpy.types.Object], get_recursive: bool=Tru
 
     for ob in obs_input:
         yield from get_object(ob)
+
+
+# TODO this could be severely more modular and useful, just a placeholder idea for now
+def find_vertex_position_z(obs_input: Iterable[bpy.types.Object], pos_type: str='max') -> float:
+    """Find the tallest points in the viewlayer by looping through objects to find the highest vertex on the Z axis
+
+    Parameters
+    ----------
+    obs_input : Iterable[bpy.types.Object]
+    pos_type : str, optional
+        by default 'max'
+    """
+    ACCEPTED_POSITIONS = {'min', 'max'}
+    if pos_type not in ACCEPTED_POSITIONS:
+        return None
+
+    vert_pos = None
+    for ob in obs_input:
+        ob_eval = ob.evaluated_get(bpy.context.evaluated_depsgraph_get())
+        mesh_from_eval = ob_eval.to_mesh()
+
+        global_vert_coords = {ob_eval.matrix_world @ v.co for v in mesh_from_eval.vertices}
+        if not len(global_vert_coords):
+            continue
+
+        if pos_type == 'max':
+            z_co = max({co.z for co in global_vert_coords})
+            vert_pos = z_co if z_co > vert_pos else vert_pos
+        elif pos_type == 'min':
+            z_co = min({co.z for co in global_vert_coords})
+            vert_pos = z_co if z_co < vert_pos else vert_pos
+
+        ob_eval.to_mesh_clear()
+
+    return vert_pos
+
+
+# TODO also just an idea
+def ob_in_viewing_spectrum(ob: bpy.types.Object, vec_check: Vector) -> bool:
+    """Decide whether a given object is within the cameras viewing spectrum
+
+    Parameters
+    ----------
+    ob : bpy.types.Object
+    vec_check : Vector
+    """
+    vec1 = Vector((ob.dimensions.x * -1.25 + ob.location[0], ob.dimensions.y * -1.25 + ob.location[1], -100))
+    vec2 = Vector((ob.dimensions.x * 1.25 + ob.location[0], ob.dimensions.y * 1.25 + ob.location[1], 100))
+
+    for i in range(0, 3):
+        if (vec_check[i] < vec1[i] and vec_check[i] < vec2[i] or vec_check[i] > vec1[i] and vec_check[i] > vec2[i]):
+            return False
+    return True
+
+
+def generate_point_cloud_ob(ob_name: str='new_ob', verts: Iterable, edges: Iterable, faces: Iterable) -> bpy.types.Object:
+    """Generate a point cloud mesh object based on given vectors
+
+    Parameters
+    ----------
+    ob_name : str
+        Name of the newly created mesh and object
+    verts : Iterable
+    edges : Iterable
+    faces : Iterable
+
+    Returns
+    -------
+    bpy.types.Object
+    """
+    new_mesh = bpy.data.meshes.new(ob_name)
+    new_ob = bpy.data.objects.new(ob_name, new_mesh)
+
+    # Make a mesh from a list of vertices / edges / faces
+    new_mesh.from_pydata(
+        vertices=verts,
+        edges=edges,
+        faces=faces
+    )
+
+    new_mesh.update()
+
+    bpy.context.collection.objects.link(new_ob)
+
+    return new_ob
 
 
 # ##### BEGIN GPL LICENSE BLOCK #####
