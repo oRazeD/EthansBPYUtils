@@ -1,6 +1,6 @@
-from typing import Any
 import bpy
-from collections.abc import Iterable
+from typing import Any
+from collections.abc import Iterable, Callable
 import logging
 log = logging.getLogger(__name__)
 
@@ -84,6 +84,27 @@ def load_attributes_from_dict(attributes_to_load: dict) -> None:
                 pass
             except TypeError: # This seems to only happen with specific bad contexts such as "dynamic" props
                 log.debug(f'{name}: {value} had a TypeError.')
+
+
+def filter_func_if_instance(func: Callable, potential_iter: Any | Iterable) -> None:
+    """Filter a potential iterable and then call a given function
+
+    Parameters
+    ----------
+    func : Callable
+        The input function to call
+    potential_iter : Any | Iterable
+        The potentially iterable object
+
+    Notes
+    -----
+    - This will currently ONLY work on functions that return None
+    """
+    if isinstance(potential_iter, Iterable):
+        for iterable in potential_iter:
+            func(iterable)
+    else:
+        func(potential_iter)
 
 
 # ##### BEGIN GPL LICENSE BLOCK #####
