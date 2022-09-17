@@ -1,4 +1,5 @@
 import bpy
+import bpy.types as types
 
 
 def exit_local_view() -> bool | str:
@@ -16,7 +17,7 @@ def exit_local_view() -> bool | str:
     return local_view_exited, report_string
 
 
-def get_render_sync(set_render_vis: bool=False) -> dict[bpy.types.Object: dict[bool, bool, bool]]:
+def get_render_sync(set_render_vis: bool=False) -> dict[types.Object: dict[bool, bool, bool]]:
     """Generate a dictionary of object & collection viewlayer visibility generally for use in OpenGL viewport renders
 
     Parameters
@@ -24,7 +25,7 @@ def get_render_sync(set_render_vis: bool=False) -> dict[bpy.types.Object: dict[b
     set_render_vis : bool
         by default False
     """
-    def layer_traverse(coll: bpy.types.Collection, layer: bpy.types.LayerCollection) -> bpy.types.LayerCollection:
+    def layer_traverse(coll: types.Collection, layer: types.LayerCollection) -> types.LayerCollection:
         '''Traverse all layer collections to find the matching one'''
         if layer.collection == coll:
             yield {'layer_ob': layer, 'layer_hidden': layer.hide_viewport}
@@ -83,7 +84,7 @@ class TempAreaType():
         'SPREADSHEET', 'PREFERENCES'
     }
 
-    def __init__(self, context, new_area_type: str='3D_VIEW', area_override: bpy.types.Area=None):
+    def __init__(self, context, new_area_type: str='3D_VIEW', area_override: types.Area=None):
         if not new_area_type in self.VALID_TYPES:
             raise ValueError(f"{new_area_type} not in {self.VALID_TYPES}")
         

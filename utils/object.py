@@ -1,9 +1,10 @@
 import bpy
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable, Generator
 from mathutils import Vector
+import bpy.types as types
 
 
-def filter_objects(obs: Iterable[bpy.types.Object], filter_instanced: bool=True, filter_linked: bool=True) -> set[bpy.types.Object]:
+def filter_objects(obs: Iterable[types.Object], filter_instanced: bool=True, filter_linked: bool=True) -> set[types.Object]:
     """Removes instanced and duplicate references from input list
 
     Parameters
@@ -18,6 +19,7 @@ def filter_objects(obs: Iterable[bpy.types.Object], filter_instanced: bool=True,
     -------
     list[bpy.types.Object]
     """
+    # TODO add more filter types
     if filter_instanced:
         obs = {ob for ob in obs if not ob.is_instancer}
     if filter_linked:
@@ -25,7 +27,8 @@ def filter_objects(obs: Iterable[bpy.types.Object], filter_instanced: bool=True,
     return obs
 
 
-def get_hierarchy(obs_input: Iterable[bpy.types.Object], get_recursive: bool=True, set_select: bool=False, _return_original: bool=True) -> Iterator[bpy.types.Object]:
+# TODO return_original arg
+def get_hierarchy(obs_input: Iterable[types.Object], get_recursive: bool=True, set_select: bool=False, _return_original: bool=True) -> Generator[types.Object]:
     """Get hierarchy of the input objects
 
     Parameters
@@ -40,7 +43,7 @@ def get_hierarchy(obs_input: Iterable[bpy.types.Object], get_recursive: bool=Tru
 
     Notes
     ----------
-    - When using set_select this function does not compensate for objects that aren't selectable, but will still be available in the generator
+    - When using set_select this function does not compensate for objects that aren't selectable, but will still return them for further use
     - This function WILL return repeat elements if potential children objects are used as an input
     """
     def get_object(ob):
@@ -59,7 +62,7 @@ def get_hierarchy(obs_input: Iterable[bpy.types.Object], get_recursive: bool=Tru
 
 
 # TODO this could be severely more modular and useful, just a placeholder idea for now
-def find_vertex_position_z(obs_input: Iterable[bpy.types.Object], pos_type: str='max') -> float:
+def find_vertex_position_z(obs_input: Iterable[types.Object], pos_type: str='max') -> float:
     """Find the tallest points in the viewlayer by looping through objects to find the highest vertex on the Z axis
 
     Parameters
@@ -68,7 +71,7 @@ def find_vertex_position_z(obs_input: Iterable[bpy.types.Object], pos_type: str=
     pos_type : str, optional
         by default 'max'
     """
-    ACCEPTED_POSITIONS = {'min', 'max'}
+    ACCEPTED_POSITIONS = {'min', 'max'} # TODO Define accepted values in docstring
     if pos_type not in ACCEPTED_POSITIONS:
         return None
 
@@ -89,12 +92,11 @@ def find_vertex_position_z(obs_input: Iterable[bpy.types.Object], pos_type: str=
             vert_pos = z_co if z_co < vert_pos else vert_pos
 
         ob_eval.to_mesh_clear()
-
     return vert_pos
 
 
 # TODO also just an idea
-def ob_in_viewing_spectrum(ob: bpy.types.Object, vec_check: Vector) -> bool:
+def ob_in_viewing_spectrum(ob: types.Object, vec_check: Vector) -> bool:
     """Decide whether a given object is within the cameras viewing spectrum
 
     Parameters
@@ -106,25 +108,24 @@ def ob_in_viewing_spectrum(ob: bpy.types.Object, vec_check: Vector) -> bool:
     vec2 = Vector((ob.dimensions.x * 1.25 + ob.location[0], ob.dimensions.y * 1.25 + ob.location[1], 100))
 
     for i in range(0, 3):
-        if (vec_check[i] < vec1[i] and vec_check[i] < vec2[i] or vec_check[i] > vec1[i] and vec_check[i] > vec2[i]):
+        if (
+            vec_check[i] < vec1[i] and vec_check[i] < vec2[i]
+            or vec_check[i] > vec1[i] and vec_check[i] > vec2[i]
+        ):
             return False
     return True
 
 
-def generate_point_cloud_ob(ob_name: str='new_ob', verts: Iterable, edges: Iterable, faces: Iterable) -> bpy.types.Object:
+def generate_point_cloud_ob(ob_name: str, verts: Iterable[int], edges: Iterable[int], faces: Iterable[int]) -> types.Object:
     """Generate a point cloud mesh object based on given vectors
 
     Parameters
     ----------
     ob_name : str
         Name of the newly created mesh and object
-    verts : Iterable
-    edges : Iterable
-    faces : Iterable
-
-    Returns
-    -------
-    bpy.types.Object
+    verts : Iterable[int]
+    edges : Iterable[int]
+    faces : Iterable[int]
     """
     new_mesh = bpy.data.meshes.new(ob_name)
     new_ob = bpy.data.objects.new(ob_name, new_mesh)
@@ -135,10 +136,9 @@ def generate_point_cloud_ob(ob_name: str='new_ob', verts: Iterable, edges: Itera
         edges=edges,
         faces=faces
     )
-
     new_mesh.update()
 
-    bpy.context.collection.objects.link(new_ob)
+    bpy.context.collection.objects.link(new_ob) # TODO Link to active or make override arg
 
     return new_ob
 
