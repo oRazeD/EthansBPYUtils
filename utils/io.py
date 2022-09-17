@@ -1,9 +1,10 @@
 import bpy, os, json
 from pathlib import Path
 from .generic import OpInfo
+import bpy.types as types
 
 
-class BPYUTILS_OT_open_folder(OpInfo, bpy.types.Operator):
+class BPYUTILS_OT_open_folder(OpInfo, types.Operator):
     """Opens up the File Explorer to the designated folder location"""
     bl_idname = "bpy_utils.open_folder"
     bl_label = "Open Folder"

@@ -57,7 +57,7 @@ def generate_node_links(mat: types.Material, input_node: types.ShaderNode, outpu
         )
 
 
-def add_ng_to_material(node_group, mat, location, hide) -> types.NodeGroup:
+def link_ng_to_material(node_group, mat, location, hide) -> types.NodeGroup:
     ng = mat.node_tree.nodes.new('ShaderNodeGroup')
     ng.node_tree = node_group
     ng.name = node_group.name
@@ -87,7 +87,7 @@ def inject_ng_into_mat_outputs(obs: types.Object | Iterable[types.Object], node_
                 output_nodes = [slot.node_tree.nodes.new('ShaderNodeOutputMaterial')]
 
             for output_node in output_nodes:
-                ng = add_ng_to_material(node_group, slot, output_node.location, True)
+                ng = link_ng_to_material(node_group, slot, output_node.location, True)
 
                 for node_input in output_node.inputs:
                     for link in node_input.links:
