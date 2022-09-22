@@ -1,4 +1,6 @@
 import bpy
+from dataclasses import dataclass
+from enum import Enum, auto
 from collections.abc import Iterable, Generator
 from mathutils import Vector
 import bpy.types as types
@@ -21,7 +23,7 @@ def filter_objects(obs: Iterable[types.Object], filter_instanced: bool=True, fil
     """
     # TODO add more filter types
     if filter_instanced:
-        obs = {ob for ob in obs if not ob.is_instancer}
+        obs = (ob for ob in obs if not ob.is_instancer)
     if filter_linked:
         obs = {ob.data: ob for ob in obs}.values()
     return obs
@@ -61,9 +63,13 @@ def get_hierarchy(obs_input: Iterable[types.Object], get_recursive: bool=True, s
         yield from get_object(ob)
 
 
-# TODO this could be severely more modular and useful, just a placeholder idea for now
-def find_vertex_position_z(obs_input: Iterable[types.Object], pos_type: str='max') -> float:
-    """Find the tallest points in the viewlayer by looping through objects to find the highest vertex on the Z axis
+@dataclass
+class PosType(Enum):
+    MAX_POS = auto()
+    MIN_POS = auto()
+
+def find_vertex_position(obs_input: Iterable[types.Object], pos_type: PosType=PosType.MAX_POS, axis_idx: int=0) -> float:
+    """Find the tallest points in the viewlayer by looping through objects to find the highest vertex on any axis
 
     Parameters
     ----------
@@ -71,31 +77,27 @@ def find_vertex_position_z(obs_input: Iterable[types.Object], pos_type: str='max
     pos_type : str, optional
         by default 'max'
     """
-    ACCEPTED_POSITIONS = {'min', 'max'} # TODO Define accepted values in docstring
-    if pos_type not in ACCEPTED_POSITIONS:
-        return None
-
-    vert_pos = None
+    vert_pos = 0.0
     for ob in obs_input:
         ob_eval = ob.evaluated_get(bpy.context.evaluated_depsgraph_get())
         mesh_from_eval = ob_eval.to_mesh()
 
-        global_vert_coords = {ob_eval.matrix_world @ v.co for v in mesh_from_eval.vertices}
-        if not len(global_vert_coords):
+        axis_vert_coords = [(ob_eval.matrix_world @ v.co)[axis_idx] for v in mesh_from_eval.vertices]
+        if not axis_vert_coords:
             continue
 
-        if pos_type == 'max':
-            z_co = max({co.z for co in global_vert_coords})
-            vert_pos = z_co if z_co > vert_pos else vert_pos
-        elif pos_type == 'min':
-            z_co = min({co.z for co in global_vert_coords})
-            vert_pos = z_co if z_co < vert_pos else vert_pos
+        if pos_type == PosType.MAX_POS:
+            axis_co = max(axis_vert_coords)
+            vert_pos = axis_co if axis_co > vert_pos else vert_pos
+        elif pos_type == PosType.MIN_POS:
+            axis_co = min(axis_vert_coords)
+            vert_pos = axis_co if axis_co < vert_pos else vert_pos
 
         ob_eval.to_mesh_clear()
     return vert_pos
 
 
-# TODO also just an idea
+# TODO just an idea
 def ob_in_viewing_spectrum(ob: types.Object, vec_check: Vector) -> bool:
     """Decide whether a given object is within the cameras viewing spectrum
 
