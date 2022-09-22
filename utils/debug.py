@@ -1,22 +1,30 @@
 from timeit import default_timer
+import inspect, logging
+
+log = logging.getLogger(__name__)
+log.setLevel(logging.DEBUG)
+
+
+# NOTE These functions are meant for production and should ONLY be used in development
+# environments, this code WILL introduce unecessary overhead if used in live environments
 
 
 class CodeTimer(object):
     '''A basic context manager for timing code blocks'''
-    def __init__(self, timing:str=1000): # 1000 = milliseconds
-        self.timing = timing
+    def __init__(self, repeat: int=100):
+        self.timing = 1000 # milliseconds
         self.timer = default_timer
-        
+        self.repeat = repeat
+
     def __enter__(self):
         self.start = self.timer()
-        return self
-        
-    def __exit__(self, *args):
-        end = self.timer()
-        self.elapsed_secs = end - self.start
-        self.elapsed = self.elapsed_secs * self.timing
+        return self.repeat
 
-        print(f'elapsed time: {self.elapsed} ms')
+    def __exit__(self, _exc_type, _exc_val, _traceback):
+        end = self.timer()
+        self.elapsed = (end - self.start) * self.timing
+
+        log.debug(f"{inspect.stack()[1][3]}'s time: {round(self.elapsed, 6)}ms")
 
 
 # ##### BEGIN GPL LICENSE BLOCK #####
