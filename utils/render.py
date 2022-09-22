@@ -17,7 +17,7 @@ def exit_local_view() -> bool | str:
     return local_view_exited, report_string
 
 
-def get_render_sync(set_render_vis: bool=False) -> dict[types.Object: dict[bool, bool, bool]]:
+def get_render_sync(_set_render_vis: bool=False) -> dict[types.Object: dict[bool, bool, bool]]:
     """Generate a dictionary of object & collection viewlayer visibility generally for use in OpenGL viewport renders
 
     Parameters

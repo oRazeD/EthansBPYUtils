@@ -1,10 +1,11 @@
 import bpy, bmesh
+import bpy.types as types
 
 
 class BMeshFromEditMode():
     '''Generate a temporary BMesh. Accepts Objects or Meshes as inputs temp change'''
-    def __init__(self, input_data: bpy.types.Object | bpy.types.Mesh, update_mesh: bool=True):
-        if isinstance(input_data, bpy.types.Mesh):
+    def __init__(self, input_data: types.Object | types.Mesh, update_mesh: bool=True): # TODO Should accept lists?
+        if isinstance(input_data, types.Mesh):
             self.input_data = input_data
         else:
             self.input_data = input_data.data
@@ -13,7 +14,7 @@ class BMeshFromEditMode():
 
     def __enter__(self):
         self.bm = bmesh.from_edit_mesh(self.input_data)
-        return self
+        return self.bm
      
     def __exit__(self, _exc_type, _exc_value, _exc_traceback): # NOTE do not use self.bm.free() for BMeshes made in Edit Mode, uses same data regardless
         if self.update_mesh:
