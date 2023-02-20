@@ -5,18 +5,21 @@ EthansBPYUtils is an incredibly loose collection of refined BPY-based functions 
 EthansBPYUtils is not loaded with [PIP](https://pypi.org/project/pip) or anything like that, but you can either add this library as a [Git Submodule](https://www.git-scm.com/book/en/v2/Git-Tools-Submodules) to your own repo or just manually download the files. If using the Git Submodule method, simply update the pointers to recieve updates from this repo as they are committed.
 
 ## My Development Setup
-My IDE (coding software) of choice is [Visual Studio Code](https://code.visualstudio.com) with the Blender Development plugin installed for efficiently testing changed code. I also use [fake_bpy_module](https://github.com/nutti/fake-bpy-module) for proper syntax highlighting. Some resources I recommend for learning how to code within the API are listed in the following section.
+My IDE (coding software) of choice is [Visual Studio Code](https://code.visualstudio.com) with the Blender Development extension installed for efficiently testing changed code. I also use [fake_bpy_module](https://github.com/nutti/fake-bpy-module) for proper syntax highlighting. I personally recommend leaving the built-in Blender Text Editor ASAP as it very quickly becomes cumbersome to use, although I will also recognize its helpfulness demoing a handful lines of code from time to time. Some resources I recommend for learning how to code within the API are listed in the [Extra Development Tips](#extra-development-tips) section.
+
+### Extra Development Tips
+- If you already know Python but aren't familiar with BPY specifically, I always recommend Dr Sybrens official Blender Studio [Scripting for Artists](https://studio.blender.org/training/scripting-for-artists) tutorial series on developing add-ons. He offers clear and concise guidance on learning the API all the while being an extremely veteran coder giving useful code design advice along the way. You can also watch [this](https://youtu.be/mYrPqrFY7mA) talk for a more advanced but conference-like learning experience.
+- [Basic Add-on Tutorial](https://docs.blender.org/manual/en/latest/advanced/scripting/addon_tutorial.html) Your first blender add-on on the official Blender Docs. Personally speaking, the faster you get into single file add-ons over just text editor scripts the better.
+- If you're looking into [Building Blender](https://wiki.blender.org/wiki/Building_Blender) from source code I can't recommend [this](https://svn.blender.org/svnroot/bf-blender/tags/) SVN repo enough for streamlining the process of getting your library files. This is specifically useful if you are working on any branch other than master (I.E. final releases). My experience getting things like CUDA and OPTIX working with builds was better with Ubuntu Linux, but Windows is also fully capable with a bit of extra work.
 
 ## Random Development Resources
 As far as utilities not specifically included in this repository, I will update this README to include any resources I find that I'd like share or explore myself in the future:
 
-- [Scripting for Artists](https://studio.blender.org/training/scripting-for-artists) - If you already know Python but aren't familiar with BPY specifically, I always recommend Dr Sybrens tutorial series on developing add-ons. He offers clear and concise guidance on learning the API all the while being an extremely veteran coder giving useful code design advice along the way. You can also watch [this](https://youtu.be/mYrPqrFY7mA) talk for a more advanced but conference-like learning experience
-- [BlenderShare/templates](https://github.com/BlenderShare/templates) - Code Snippets/Add-on Templates (seems a bit outdated)
-- [blender_addon_updater](https://github.com/CGCookie/blender-addon-updater) - Tool that adds automatic add-on update functionality for end users
-- [io_export_blend](https://github.com/CGCookie/io_export_blend) - Tool for exporting selections to a new blend file
-- [download-directory](https://download-directory.github.io) - Simple web tool for directly downloading specific pages of a GitHub repo
-- [ChatGPT](https://openai.com/blog/chatgpt) - Genuinely a good alternative resource for develepment assistance, warning that it will frequently give confidently incorrect responses and unless guided will often reference the pre-2.8 BPY Python API
-
+- [blender_addon_updater](https://github.com/CGCookie/blender-addon-updater) Tool that adds automatic add-on update functionality for end users
+- [io_export_blend](https://github.com/CGCookie/io_export_blend) Tool for exporting selections to a new blend file
+- [BlenderShare/templates](https://github.com/BlenderShare/templates) Code Snippets/Add-on Templates (seems a bit outdated)
+- [download-directory](https://download-directory.github.io) Simple web tool for directly downloading specific pages of a GitHub repo
+- [ChatGPT](https://openai.com/blog/chatgpt) Genuinely a good alternative resource for development assistance, warning that it will frequently give confidently incorrect responses and unless guided will often reference the pre-2.8 BPY Python API
 
 ## Add-ons I frequently use
 While not entirely relevant to the purpose of this repository, I realized I have no location online where I share my favorite stuff. These add-ons are geared towards your average game artists toolkit being focused mostly on modeling, unwrapping, file handling, and rendering. I'll attempt to keep this list optimized and minimal as my workflow evolves. I will prioritize using only GitHub links and will substitute the paid only tools with Gumroad/Blender Market links where applicable:

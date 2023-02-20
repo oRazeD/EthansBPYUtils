@@ -1,4 +1,4 @@
-import bpy, bmesh
+import bmesh
 import bpy.types as types
 
 
