@@ -1,27 +1,27 @@
 # EthansBPYUtils
 EthansBPYUtils is an incredibly loose collection of refined BPY-based functions and classes that perform; in most cases, frequently used operations. Some files such as materials.py are scraped directly from other add-ons and as such aren't currently usable in any capacity and only exist as an inlet for future ideas. This library will mainly be updated as I develop my other existing add-ons serving as a functionality bridge between them. EthansBPYUtils also comes with some example scripts that I've scraped from around online. You are welcome to use any of the code in this repo however you so wish under GPL licensing.
 
-## How to use this library
-EthansBPYUtils is not loaded with PIP or anything like that, but you can either add this library as a [Git Submodule](https://www.git-scm.com/book/en/v2/Git-Tools-Submodules) to your own repo or just manually download the files. If using the Git Submodule method, simply update the pointers to recieve updates from this repo as they are committed.
+## How to Use
+EthansBPYUtils is not loaded with [PIP](https://pypi.org/project/pip) or anything like that, but you can either add this library as a [Git Submodule](https://www.git-scm.com/book/en/v2/Git-Tools-Submodules) to your own repo or just manually download the files. If using the Git Submodule method, simply update the pointers to recieve updates from this repo as they are committed.
 
-## Personal development setup
-My IDE of choice is Visual Studio Code with the Blender Development plugin for efficiently testing changed code along with [fake_bpy_module](https://github.com/nutti/fake-bpy-module) for proper syntax highlighting.
+## My Development Setup
+My IDE (coding software) of choice is [Visual Studio Code](https://code.visualstudio.com) with the Blender Development plugin installed for efficiently testing changed code. I also use [fake_bpy_module](https://github.com/nutti/fake-bpy-module) for proper syntax highlighting. Some resources I recommend for learning how to code within the API are listed in the following section.
 
 ## Random Development Resources
 As far as utilities not specifically included in this repository, I will update this README to include any resources I find that I'd like share or explore myself in the future:
 
+- [Scripting for Artists](https://studio.blender.org/training/scripting-for-artists) - If you already know Python but aren't familiar with BPY specifically, I always recommend Dr Sybrens tutorial series on developing add-ons. He offers clear and concise guidance on learning the API all the while being an extremely veteran coder giving useful code design advice along the way. You can also watch [this](https://youtu.be/mYrPqrFY7mA) talk for a more advanced but conference-like learning experience
 - [BlenderShare/templates](https://github.com/BlenderShare/templates) - Code Snippets/Add-on Templates (seems a bit outdated)
 - [blender_addon_updater](https://github.com/CGCookie/blender-addon-updater) - Tool that adds automatic add-on update functionality for end users
 - [io_export_blend](https://github.com/CGCookie/io_export_blend) - Tool for exporting selections to a new blend file
-- [download-directory](https://download-directory.github.io/) - Simple web tool for directly downloading specific pages of a GitHub repo
+- [download-directory](https://download-directory.github.io) - Simple web tool for directly downloading specific pages of a GitHub repo
 - [ChatGPT](https://openai.com/blog/chatgpt) - Genuinely a good alternative resource for develepment assistance, warning that it will frequently give confidently incorrect responses and unless guided will often reference the pre-2.8 BPY Python API
 
 
 ## Add-ons I frequently use
-While not entirely relevant to the purpose of this repository, I realized I have no location online where I share my favorite stuff. These add-ons are geared towards your average game artists toolkit being focused mostly on modeling, unwrapping, file handling, and rendering. I will prioritize using only GitHub links and will substitute the paid only tools with Gumroad/Blender Market links where applicable:
+While not entirely relevant to the purpose of this repository, I realized I have no location online where I share my favorite stuff. These add-ons are geared towards your average game artists toolkit being focused mostly on modeling, unwrapping, file handling, and rendering. I'll attempt to keep this list optimized and minimal as my workflow evolves. I will prioritize using only GitHub links and will substitute the paid only tools with Gumroad/Blender Market links where applicable:
 
 ### Generic
-- [Asset Management](https://pistiwique.gumroad.com/l/asset_management)
 - [Screenshot Saver](https://github.com/oRazeD/ScreenshotSaver) - Made by Me!
 - [Vertex Colors Plus](https://github.com/oRazeD/VertexColorsPlus) - Made by Me!
 - [Bake to Vertex Color](https://3dbystedt.gumroad.com/l/zdgxg)
