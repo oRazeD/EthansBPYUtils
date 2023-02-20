@@ -1,78 +1,77 @@
-# razeds_bpy_utils
-razeds_bpy_utils is an incredibly loose collection of refined BPY-based functions and classes that perform; in most cases, frequently used operations. Some files such as materials.py are scraped directly from other add-ons and as such aren't currently usable in any capacity and only exist as an inlet for future ideas. This library will mainly be updated as I develop my other existing add-ons serving as a functionality bridge between them. razeds_bpy_utils also comes with some example scripts that I've scraped from around online. You are welcome to use any of the code in this repo however you so wish under GPL licensing.
+# EthansBPYUtils
+EthansBPYUtils is an incredibly loose collection of refined BPY-based functions and classes that perform; in most cases, frequently used operations. Some files such as materials.py are scraped directly from other add-ons and as such aren't currently usable in any capacity and only exist as an inlet for future ideas. This library will mainly be updated as I develop my other existing add-ons serving as a functionality bridge between them. EthansBPYUtils also comes with some example scripts that I've scraped from around online. You are welcome to use any of the code in this repo however you so wish under GPL licensing.
 
-## How do I use this library?
-razeds_bpy_utils is not loaded with PIP or anything like that, but you can either add this library as a [Git Submodule](https://www.git-scm.com/book/en/v2/Git-Tools-Submodules) to your own repo or just manually download the files. If using the Git Submodule method, simply update the pointers to recieve updates from this repo as they are committed.
+## How to use this library
+EthansBPYUtils is not loaded with PIP or anything like that, but you can either add this library as a [Git Submodule](https://www.git-scm.com/book/en/v2/Git-Tools-Submodules) to your own repo or just manually download the files. If using the Git Submodule method, simply update the pointers to recieve updates from this repo as they are committed.
 
-## What do you use for Blender Add-on Development?
-My IDE of choice is Visual Studio Code with the Blender Development plugin for efficiently testing changes and fake_bpy_module for proper syntax highlighting.
+## Personal development setup
+My IDE of choice is Visual Studio Code with the Blender Development plugin for efficiently testing changed code along with [fake_bpy_module](https://github.com/nutti/fake-bpy-module) for proper syntax highlighting.
 
-## Random Resources
-As far as utilities not specifically included in this repository, I will update this README to include any resources I find that I'd like share with you or explore myself in the future
+## Random Development Resources
+As far as utilities not specifically included in this repository, I will update this README to include any resources I find that I'd like share or explore myself in the future:
 
-- [[Here](https://github.com/BlenderShare/templates)] Code Snippets/Add-on Templates (seems a bit outdated)
-- [[Here](https://github.com/CGCookie/blender-addon-updater)] Tool for adding automatic updates to your blender add-ons
-- [[Here](https://github.com/CGCookie/io_export_blend)] Tool for exporting selections to a new blend file
+- [BlenderShare/templates](https://github.com/BlenderShare/templates) - Code Snippets/Add-on Templates (seems a bit outdated)
+- [blender_addon_updater](https://github.com/CGCookie/blender-addon-updater) - Tool that adds automatic add-on update functionality for end users
+- [io_export_blend](https://github.com/CGCookie/io_export_blend) - Tool for exporting selections to a new blend file
+- [download-directory](https://download-directory.github.io/) - Simple web tool for directly downloading specific pages of a GitHub repo
+- [ChatGPT](https://openai.com/blog/chatgpt) - Genuinely a good alternative resource for develepment assistance, warning that it will frequently give confidently incorrect responses and unless guided will often reference the pre-2.8 BPY Python API
 
 
 ## Add-ons I frequently use
-While not entirely relevant to the purpose of this repo, I realized I don't have any online location where I share my fav stuff.
+While not entirely relevant to the purpose of this repository, I realized I have no location online where I share my favorite stuff. These add-ons are geared towards your average game artists toolkit being focused mostly on modeling, unwrapping, file handling, and rendering. I will prioritize using only GitHub links and will substitute the paid only tools with Gumroad/Blender Market links where applicable:
 
-- Batch Operations
-- GrabDoc
-- Hard Ops
-- Retopoflow - https://github.com/CGCookie/retopoflow
-- Rotate HDRI
-- Screenshot Saver
-- Vertex Colors Plus
-- Bake to Vertex Color
-
-Generic Tools
+### Generic
+- [Asset Management](https://pistiwique.gumroad.com/l/asset_management)
+- [Screenshot Saver](https://github.com/oRazeD/ScreenshotSaver) - Made by Me!
+- [Vertex Colors Plus](https://github.com/oRazeD/VertexColorsPlus) - Made by Me!
+- [Bake to Vertex Color](https://3dbystedt.gumroad.com/l/zdgxg)
 - Copy Attributes Menu - Built-in!
 - Node Wrangler - Built-in!
-- Asset Management
 - Edit Linked Library - Built-in!
 - Material Utilities - Built-in!
 
-Generic Modeling Tools
-- Pie Menus Plus
-- Pie Menu Editor
+### Generic Modeling
+- [Pie Menus Plus](https://github.com/oRazeD/PieMenusPlus) - Made by Me!
+- [Pie Menu Editor](https://roaoao.gumroad.com/l/pie_menu_editor)
+- [Batch Ops](https://moth3r.gumroad.com/l/batchops)
+- [Retopoflow](https://github.com/CGCookie/retopoflow)
 - LoopTools - Built-in!
 - BoolTool - Built-in!
 - Extra Objects (Mesh & Curve) - Built-in!
-- Transform Utils (Useless in 3.3+)
 
-Mesh Manipulation
-- ReBevel
-- Rotate Face
-- Slide Edge
-- Volume Preserving Smoothing
-- NGon Loop Select
-- EdgeFlow
+### Mesh Manipulation
+- [ReBevel](https://bartoszstyperek.gumroad.com/l/rebevel)
+- [Rotate Face](https://bartoszstyperek.gumroad.com/l/rotate_face)
+- [Slide Edge](https://kushiro.gumroad.com/l/oaykc)
+- [Volume Preserving Smoothing](https://bartoszstyperek.gumroad.com/l/vol_smooth)
+- [NGon Loop Select](https://amanbairwal.gumroad.com/l/NGonLoopSelect)
+- [EdgeFlow](https://github.com/BenjaminSauder/EdgeFlow) - Not currently maintained
+- [Hidesato Offset Edges](https://blenderartists.org/uploads/short-url/9Yp52n5oOiPPF5nKPHsZVo8XZJw.py) - DD link, not currently maintained
+- [MACHIN3tools](https://machin3.gumroad.com/l/MACHIN3tools)
+- [MESHMachine](https://machin3.gumroad.com/l/MESHmachine)
+- [Hard Ops](https://masterxeon1001.gumroad.com/l/hardops)
 - F2 - Built-in!
-- Hidesato Offset Edges
-- MACHIN3tools
-- MESHMachine
 
-UV Unwrapping
-- DreamUV - https://github.com/leukbaars/DreamUV
-- UVToolkit - Not currently available online :/
-- UVPackmaster 3 - https://uvpackmaster.com/
-- Texel Density Checker - https://github.com/mrven/Blender-Texel-Density-Checker
+### UV Unwrapping
+- [DreamUV](https://github.com/leukbaars/DreamUV)
+- [UVToolkit](https://github.com/oRazeD/UVToolkit) - Not currently maintained, reuploaded by me
+- [UVPackmaster 3](https://glukoz.gumroad.com/l/uvpackmaster3)
+- [Texel Density Checker](https://github.com/mrven/Blender-Texel-Density-Checker)
 
-Rendering
-- Photographer 4.7
+### Rendering
+- [Photographer](https://chafouin.gumroad.com/l/HPrCY)
+- [Rotate HDRI](https://alexbel.gumroad.com/l/XQYEl) - Not currently maintained
 - Copy Render Settings - Built-in!
 
-I/O
-- Better FBX - https://www.blendermarket.com/products/better-fbx-importer--exporter
-- GoB - https://github.com/JoseConseco/GoB
+### I/O
+- [Better FBX](https://www.blendermarket.com/products/better-fbx-importer--exporter)
+- [GoB](https://github.com/JoseConseco/GoB)
 - Import Images as Planes - Built-in!
 
-Online User Preferences
+### Cloud-based User Preferences
 - Blender Cloud - Built-in!
 - Blender ID Auth - Built-in!
 
-Blender Dev Add-ons
+### Blender Development
 - Icon Viewer - Built-in!
 - Math Vis (Console) - Built-in!
