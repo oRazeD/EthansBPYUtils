@@ -1,8 +1,6 @@
 import bpy
 from typing import Any
 from collections.abc import Iterable, Callable
-import logging
-log = logging.getLogger(__name__)
 
 
 class OpInfo: # Mix-in class
@@ -56,44 +54,44 @@ def display_error_message(message='', title='Warning', icon='ERROR') -> None:
     bpy.context.window_manager.popup_menu(draw, title=title, icon=icon)
 
 
-def save_attributes_to_dict(attributes_to_save: Any | Iterable[Any]) -> dict:
-    """Save all attributes of any given bpy.types
+def operator_report(self: bpy.types.Operator, message: str, error_type: str='INFO', return_type: str=None) -> None | set:
+    """A more useful self.report() function, including more functionality and better type hinting. Used inside operators.
 
     Parameters
     ----------
-    attributes_to_save : Any | Iterable[Any]
-        The attributes you want to look through and save
+    self : bpy.types.Operator
+    message : str
+        Report message to print
+    error_type : str, optional
+        Error Type in ('INFO', 'WARNING', 'ERROR',  'OPERATOR', 'PROPERTY', 'ERROR_INVALID_INPUT', 'ERROR_INVALID_CONTEXT', "ERROR_OUT_OF_MEMORY"), by default 'INFO'
+    return_type : str, optional
+        Type to return in ('FINISHED', 'CANCELLED', 'RUNNING_MODAL', 'PASS_THROUGH', 'INTERFACE'), by default None
     """
-    if not isinstance(attributes_to_save, Iterable):
-        attributes_to_save = [attributes_to_save]
+    self.report({error_type}, message)
 
-    saved_attributes = {}
-    for data in attributes_to_save:
-        saved_attributes[data] = {attr: getattr(data, attr) for attr in dir(data)}
-
-    return saved_attributes
+    if return_type:
+        return {return_type}
 
 
-def load_attributes_from_dict(attributes_to_load: dict) -> None:
-    """Load all attributes from a dict"""
-    for key, values in attributes_to_load.items():
-        for name, value in values.items():
-            try:
-                setattr(key, name, value)
-            except AttributeError: # read_only attr
-                pass
-            except TypeError: # This seems to only happen with specific bad contexts such as "dynamic" props
-                log.debug(f'{name}: {value} had a TypeError.')
+def filter_if_iterable(potential_iter: Any | Iterable[Any]) -> list:
+    """Filter a potential iterable
+
+    Parameters
+    ----------
+    potential_iter : Any | Iterable[Any]
+        The potentially iterable object
+    """
+    return [potential_iter] if not isinstance(potential_iter, Iterable) else potential_iter
 
 
-def filter_func_if_instance(func: Callable, potential_iter: Any | Iterable) -> None:
+def filter_func_if_iterable(func: Callable, potential_iter: Any | Iterable[Any]) -> function(Iterable):
     """Filter a potential iterable and then call a given function
 
     Parameters
     ----------
     func : Callable
         The input function to call
-    potential_iter : Any | Iterable
+    potential_iter : Any | Iterable[Any]
         The potentially iterable object
 
     Notes

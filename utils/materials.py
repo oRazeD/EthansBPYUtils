@@ -1,7 +1,7 @@
 import bpy
 import bpy.types as types
 from collections.abc import Iterable, Generator
-from generic import filter_func_if_instance
+from generic import filter_func_if_iterable
 
 
 def get_shader_nodes_by_type(mats: types.Material | Iterable[types.Material], node_type: str, name_override: str='') -> Generator[bpy.types.Node]:
@@ -11,7 +11,7 @@ def get_shader_nodes_by_type(mats: types.Material | Iterable[types.Material], no
             if node.type == node_type or name_override != '' and node.name.startswith(name_override):
                 yield node
 
-    # TODO figure out how to use filter_func_if_instance with functions that have return values 
+    # TODO figure out how to use filter_func_if_iterable with functions that have return values 
     if isinstance(mats, Iterable):
         for mat in mats:
             yield from find_node(mat)
@@ -37,7 +37,7 @@ def apply_mat_to_obs(obs: types.Object | Iterable[types.Object], mat: types.Mate
         if not ob.active_material:
             ob.active_material = mat
 
-    filter_func_if_instance(apply_mat, obs)
+    filter_func_if_iterable(apply_mat, obs)
 
 
 def generate_node_links(mat: types.Material, input_node: types.ShaderNode, output_node: types.ShaderNode, links_to_create: dict) -> None:
@@ -106,7 +106,7 @@ def inject_ng_into_mat_outputs(obs: types.Object | Iterable[types.Object], node_
 
                 slot.node_tree.links.new(output_node.inputs["Surface"], ng.outputs["Output"])
 
-    filter_func_if_instance(inject_ng, obs)
+    filter_func_if_iterable(inject_ng, obs)
 
 
 def cleanup_ng_from_mat(node_name: str) -> None:

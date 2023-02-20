@@ -1,7 +1,7 @@
 import bpy
 from .bmesh import BMeshFromEditMode
 from collections.abc import Iterable
-from generic import filter_func_if_instance
+from generic import filter_func_if_iterable
 import bpy.types as types
 
 
@@ -33,7 +33,7 @@ def remove_all_layers(obs: types.Object | Iterable[types.Object], keep_single: b
             while len(uv_layers):
                 uv_layers.remove(uv_layers[0])
 
-    filter_func_if_instance(remove_layers, obs)
+    filter_func_if_iterable(remove_layers, obs)
 
 
 def copy_uv_layers(ob:types.Object, copy_from_idx:int, copy_to_idx:int) -> None:
@@ -69,7 +69,7 @@ def generate_uv_layers(obs: types.Object | Iterable[types.Object], **uv_channels
             except IndexError:
                 uv_layers.new(name=uv_name, do_init=False)
 
-    filter_func_if_instance(setup_uv_channels, obs)
+    filter_func_if_iterable(setup_uv_channels, obs)
 
     # TODO figure out more user friendly approach to calling the function
     #set_uv_layer(
@@ -96,7 +96,7 @@ def set_active_uv_layer(obs: types.Object | Iterable[types.Object], idx: int=0, 
         ob.data.uv_layers.active_index = idx
         ob.data.uv_layers[idx].active_render = set_render
 
-    filter_func_if_instance(set_active_idx, obs)
+    filter_func_if_iterable(set_active_idx, obs)
 
 
 # ##### BEGIN GPL LICENSE BLOCK #####

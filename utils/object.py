@@ -25,7 +25,7 @@ def filter_objects(obs: Iterable[types.Object], filter_instanced: bool=True, fil
     if filter_instanced:
         obs = (ob for ob in obs if not ob.is_instancer)
     if filter_linked:
-        obs = {ob.data: ob for ob in obs}.values()
+        obs = {ob.data: ob for ob in obs}.values() # TODO Turn this into a generator!
     return obs
 
 
